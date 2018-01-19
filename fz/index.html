@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			@font-face {
+				font-family: 'iconfont';
+				src: url('./font/iconfont.eot');
+				src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'), url('./font/iconfont.woff') format('woff'), url('./font/iconfont.ttf') format('truetype'), url('./font/iconfont.svg#iconfont') format('svg');
+			}
+			
+			.iconfont {
+				font-family: "iconfont" !important;
+				font-size: 50px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-webkit-text-stroke-width: 0.2px;
+				-moz-osx-font-smoothing: grayscale;
+			}
+			.centerContentT {
+				height: 52px;
+				background-color: #021731;
+			  	box-shadow: 0px 1px 1px 0 rgba(13, 12, 12, 0.08);
+			}
+			.ghBox p {
+				display: inline-block;
+			    width: 103px;
+			    border: 1px solid;
+			    padding: 4px 0 4px 15px;
+			    margin-left: 19px;
+			    color: #ffffff;
+			}
+			
+			.ghBox {
+				float: left;
+				margin: 12px 20px 0 30px;
+				color: #ffffff;
+				font-size: 14.7px;
+			}
+			.tcBtn {
+				float: right;
+				margin: 4px 29px 0 0;
+				color: #ffffff;
+				text-align: center;
+				line-height: 46px;
+				font-size: 21.8px;
+				width: 85px;
+				  height: 45px;
+				  background-color: #e60012;
+				  box-shadow: 0px 1px 26px 0 rgba(13, 12, 12, 0.08);
+			}
+			.tabUlDiv{
+				height: 38px;
+				width: 100%;
+				margin-top: 1px;
+				overflow-x: auto;
+				text-align: center;
+			}
+			.tabUlDiv ul li{
+				float: left;
+				border-right: 2px solid #ffffff;
+				padding: 1px 0;
+				width: 120px;
+				line-height: 36px;
+				list-style:none;
+				font-size: 15px;
+				font-weight: 500;
+			}
+			.tabUlDiv i{
+				font-size: 30px;
+				line-height: 38px;
+			}
+			.tabUl{
+				width: 9999px;
+			}
+			.tabUlDiv::-webkit-scrollbar{
+				display:none;
+			}
+			.rightBtn,.leftBtn{
+				height: 38px;
+				width: 48px;
+				background-color: #FAC900;
+				float: right;
+				position: fixed;
+				top: 53px;
+			}
+			.rightBtn{
+				right: 0;
+			}
+			.leftBtn{
+				left: 0;
+			}
+			.active{
+				background-color: #FFFFFF;
+			}
+			.hide{
+				background-color: #FAC900;
+			}
+			.conHide{
+				display: none;
+			}
+			.conBlock{
+				display: block;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="centerContentT">
+			<div class="ghBox">工号:
+				<p>12121313131</p>
+			</div>
+			<div class="ghBox">姓名:
+				<p>第一小组</p>
+			</div>
+			<div class="ghBox">组别:
+				<p>第一小组</p>
+			</div>
+			<div class="tcBtn">退出</div>
+		</div>
+		<div class="tabUlDiv">
+			<div class="leftBtn"><i class="iconfont">&#xe641;</i></div>
+			<div class="rightBtn"><i class="iconfont">&#xe642;</i></div>
+			<ul class="tabUl"></ul>
+		</div>
+		<div class="contentDiv"></div>
+		<script type="text/javascript">
+			var oFragmeng = document.createDocumentFragment(); 
+			var tabUl = document.getElementsByClassName('tabUl')[0];
+			var contentDiv = document.getElementsByClassName('contentDiv')[0];
+			var rightBtn = document.getElementsByClassName('rightBtn')[0];
+			var tabUlDiv = document.getElementsByClassName('tabUlDiv')[0];
+			var leftBtn = document.getElementsByClassName('leftBtn')[0];
+			var num = 12;
+			for(var i = 1; i < num; i++){
+				var para=document.createElement("li");
+				var nodetext = document.createTextNode("生产1-"+i);
+				para.appendChild(nodetext);
+				oFragmeng.appendChild(para);
+				para.className = 'hide';
+				para.setAttribute('onclick','changeTab('+i+')');
+				
+				var contDiv=document.createElement("div");
+				var context = document.createTextNode("内容"+i);
+				contDiv.appendChild(context);
+				contentDiv.appendChild(contDiv);
+				contDiv.className = 'conHide';
+			}
+				tabUl.appendChild(oFragmeng);
+				tabUl.firstChild.className = 'active';
+				contentDiv.firstChild.style.display="block";
+			
+				
+				function changeTab(tabCon_num){
+					//console.log(contentDiv.children[tabCon_num-1])
+
+					for(var i=0;i<contentDiv.children.length;i++) {
+						contentDiv.children[i].style.display="none";
+						tabUl.children[i].className = 'hide';
+					}
+					contentDiv.children[tabCon_num-1].style.display="block";
+					tabUl.children[tabCon_num-1].className = 'active';
+				} 
+			if(num >= 8){	
+				rightBtn.onclick = function(){
+					tabUlDiv.scrollLeft += 122
+				}
+				
+				leftBtn.onclick = function(){
+					tabUlDiv.scrollLeft -= 122
+				}
+				
+				if(tabUlDiv.scrollLeft == 0){
+					leftBtn.style.display = "none";
+				}
+					
+				tabUlDiv.onscroll = function() {
+					console.log(tabUlDiv.scrollLeft)
+					console.log(tabUlDiv.scrollWidth)//实际高度
+					console.log(tabUlDiv.offsetHeight)//文本高度
+					console.log(tabUlDiv.clientWidth)//可视高度
+					leftBtn.style.display = "block";
+					if(tabUlDiv.scrollLeft + tabUlDiv.clientWidth == tabUlDiv.scrollWidth){
+						console.log("到底了")
+						rightBtn.style.display = "none";
+					}else if(tabUlDiv.scrollLeft == 0){
+						leftBtn.style.display = "none";
+					}else{
+						leftBtn.style.display = "block";
+						rightBtn.style.display = "block";
+					};
+				}
+			}else{
+				leftBtn.style.display = "none";
+				rightBtn.style.display = "none";
+			}
+		</script>
+	</body>
+
+</html>
